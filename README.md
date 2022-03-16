@@ -1,10 +1,11 @@
-# [Laberinto]
+# [RandoMaze]
 
 [Creación de un laberinto con la libreria gráfica SDL.]
 
 ## Integrantes del equipo
 
-[Álvaro Campos Coria/alvarocamposupm. Bartomeu Forteza Binimelis/bforteza]
+[Álvaro Campos Coria/alvarocamposupm.
+ Bartomeu Forteza Binimelis/bforteza]
 
 ## Objetivos del trabajo
 
