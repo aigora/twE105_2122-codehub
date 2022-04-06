@@ -76,7 +76,7 @@ int representar (int matriz[filas][columnas], int col, int fil){
                 printf("%c ", '@');
                 break;
             case 4:
-                printf("%c ", '*');
+                printf("%c ", ' ');
                 break;
 
             }
@@ -145,8 +145,8 @@ void crear ( int matriz [filas][columnas]){
 
      if ( comprovar(matriz, siguiente)==1){
         int vectdifur[4] = {50,50,50,50};
-        int prova[4]= {60,5,5,60};
-        switch ( probabilidad(4, prova)){
+        int camgirdif[4]= {60,5,5,60};
+        switch ( probabilidad(4, camgirdif)){
         case 0:
             cam(matriz, siguiente, dire);
             seguir( matriz, siguiente, dire);
