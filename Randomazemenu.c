@@ -43,24 +43,25 @@
         printf("1-Jugar(J)\n");
         printf("2-Opciones(O)\n");
 
-        scanf("%c", &selecciona);
+
         do
         {
-        switch(selecciona)
-        {
-        case 'J':
-        case 'j':
-            modosdejuego();
-            break;
-        case 'O':
-        case 'o':
-            opciones();
-            break;
-        case 'V':
-        case 'v':
-            main();
-        default:
-            printf("seleccione una opcion valida\n");
+        scanf(" %c" , &selecciona);
+
+            switch(selecciona)
+                {
+                case 'J':
+                case 'j':
+                modosdejuego();
+                break;
+                case 'O':
+                case 'o':
+                opciones();
+                break;
+
+                default:
+                printf("seleccione una opcion valida\n");
+                break;
         }
         }while (selecciona!='J'||selecciona!='j'||selecciona!='O'||selecciona!='o'||selecciona!='V'||selecciona!='v');
 
@@ -74,6 +75,7 @@
         printf("2-estandar(E)\n");
         //Aun estamos trabajanod en ella
         printf("3-Volver(V)\n");
+        scanf(" %c", &selecciona);
         do
         {
         switch(selecciona)
@@ -116,6 +118,7 @@
         printf("Difícil(3)\n");
         do
         {
+            scanf(" %c", &selecciona);
         switch(selecciona)
         {
         case '1':
@@ -145,6 +148,7 @@
 
         do
         {
+        scanf(" %c", selecciona);
         switch(selecciona)
         {
         case '1':
