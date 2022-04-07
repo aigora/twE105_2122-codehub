@@ -1,38 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+
+
 
 
 #define filas 90
 #define columnas 90
+
+
 typedef struct {
     int x;
     int y;
 
 } casilla;
 
-//prototipo
+
 casilla vect( casilla inicial, int dire);
 int probabilidad( int n, int vector[]);
-
-void seguir( int matriz [filas][columnas],  casilla posicion,int dire);
-_Bool comprovar ( int matriz [filas][columnas], casilla siguiente);
 int direccion ( casilla posicion, casilla siguiente);
 
-void crear ( int matriz [filas][columnas]);
 
-int representar (int matriz[filas][columnas], int col, int fil);
-int matriznula (int matriz[filas][columnas], int col, int fil); //todos los elementos de la matriz a 0
+void crear ( int matriz [filas][columnas]);
+void seguir( int matriz [filas][columnas],  casilla posicion,int dire);
+_Bool comprovar ( int matriz [filas][columnas], casilla siguiente);
+casilla ffinales ( int matriz [filas][columnas], int num);
 
 int construir(int matriz[filas][columnas], casilla siguiente, int dire , char forma);
 void cam( int matriz[filas][columnas], casilla siguiente , int dire);
 void cerrar( int matriz[filas][columnas], casilla posicion );
 
+
+int representar (int matriz[filas][columnas], int col, int fil);
+int matriznula (int matriz[filas][columnas], int col, int fil); //todos los elementos de la matriz a 0
+
+
+
 //main
 int main(){
+
+
     time_t t;
-    srand((unsigned) time(&t));
-    printf( "%li \n", time(&t) );
+    srand((unsigned)  time(&t));
+    printf( "%li \n", time(&t));
 
   int mapa[filas][columnas];
   matriznula(mapa, filas , columnas );
@@ -40,11 +49,11 @@ int main(){
   crear( mapa );
 
 
-  representar(mapa, filas ,columnas);
+    representar(mapa, filas ,columnas);
     int s;
     scanf("%i", &s );
+    system("cls");
 
-    main();
 
 
 
@@ -62,6 +71,7 @@ int representar (int matriz[filas][columnas], int col, int fil){
     int i, j;
     for ( i=0; i<col; i++ ){
         for (j= 0; j<fil; j++){
+
             switch (matriz[i][j]){
             case 0:
                 printf("%c ", ' ');
@@ -77,6 +87,9 @@ int representar (int matriz[filas][columnas], int col, int fil){
                 break;
             case 4:
                 printf("%c ", ' ');
+                break;
+            case 5:
+                printf("%c ",  'F');
                 break;
 
             }
@@ -99,7 +112,7 @@ int matriznula (int matriz[filas][columnas], int col, int fil){
 }
 
 
-void crear ( int matriz [filas][columnas]){
+void crear ( int matriz [filas][columnas] ){
     casilla siguiente;
     int i, j, a, dire;
     casilla inicio;
@@ -134,10 +147,14 @@ void crear ( int matriz [filas][columnas]){
 
      seguir(matriz,siguiente,dire);
 
+     casilla fin = ffinales(matriz,4);
+
+     matriz[fin.y][fin.x] = 5;
+
 }
 
  void seguir( int matriz [filas][columnas], casilla posicion, int dire){
-
+    int i, j, cont;
 
 
      dire = (4 + dire) %4;
@@ -190,10 +207,20 @@ void crear ( int matriz [filas][columnas]){
 
     } else {
 
-         cerrar( matriz, posicion);
-         matriz[posicion.y][posicion.x]= 4;
+        cerrar( matriz, posicion);
 
+        cont = 0;
+        for ( i = -1; i <= 1; i++){
+            for (j = -1; j<= 1; j++){
+                if ( !(j == 0 && i == 0) && matriz[posicion.y+i][posicion.x+j] == 2 ){   // comprueba que las casillas cercanas no sumen un numero total mayor a 3
+                    cont = cont +1;
+                }
+            }
+        }
 
+        if (cont >= 6){
+            matriz[posicion.y][posicion.x]= 4;
+        }
 
      }
 
@@ -224,6 +251,26 @@ _Bool comprovar ( int matriz [filas][columnas], casilla siguiente){ // comprueba
         return 1;
     }
 }
+
+casilla ffinales ( int matriz [filas][columnas], int num){
+    int y = rand() % filas;
+    int x = rand() % columnas;
+
+    while ( matriz[y][x]!=num){
+        if ( x< columnas  && y< filas){
+            x = x+1;
+        } else if (x == columnas && y<filas){
+            x = 0;
+            y = y+1;
+        } else if( x== columnas && y == filas){
+            x= 0;
+            y = 0;
+        }
+
+    }
+    return (casilla) {x , y};
+}
+
 
 void cam( int matriz[filas][columnas], casilla siguiente, int dire){                // escribe un camino en funcion de la dirección y la casilla
     switch (dire%2)
