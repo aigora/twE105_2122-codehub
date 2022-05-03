@@ -4,8 +4,8 @@
 
 
 
-#define filas 90
-#define columnas 90
+#define filas 30
+#define columnas 100
 
 
 typedef struct {
@@ -15,25 +15,25 @@ typedef struct {
 } casilla;
 
 
-casilla vect( casilla inicial, int dire);
-int probabilidad( int n, int vector[]);
-int direccion ( casilla posicion, casilla siguiente);
+casilla vect( casilla inicial, int dire);   //saca la siguiente casilla en función de la dirección
+int probabilidad( int n, int vector[]);     //a partir de un vector de probabilidades devuelve una opción
+int direccion ( casilla posicion, casilla siguiente);   //saca la dirección a partir de dos posiciones, direcciónes: 0 arriba, 1 derecha, 2 abajo, 3 izquierda
 
-
+casilla iniciocasilla(int matriz[filas][columnas], casilla inicio, int *num);
 void crear ( int matriz [filas][columnas]);
 void seguir( int matriz [filas][columnas],  casilla posicion,int dire);
 _Bool comprovar ( int matriz [filas][columnas], casilla siguiente);
-casilla ffinales ( int matriz [filas][columnas], int num);
+casilla ffinales ( int matriz [filas][columnas], int num); //devuelve la posicion aleatoria de el valor pedido ej: ffinales(matriz, 7): devuelve una posicion de uno de los 7s de la matriz
 
 int construir(int matriz[filas][columnas], casilla siguiente, int dire , char forma);
 void cam( int matriz[filas][columnas], casilla siguiente , int dire);
 void cerrar( int matriz[filas][columnas], casilla posicion );
 
 
-int representar (int matriz[filas][columnas], int col, int fil);
+int representar (int matriz[filas][columnas], int col, int fil);  //representa la función
 int matriznula (int matriz[filas][columnas], int col, int fil); //todos los elementos de la matriz a 0
 
-
+//criterio casillas 0 = vacio, 1 = camino, 2 = muro, 3 = incio, -1 = posible final, 5 = final
 
 //main
 int main(){
@@ -41,7 +41,8 @@ int main(){
 
     time_t t;
     srand((unsigned)  time(&t));
-    printf( "%li \n", time(&t));
+    //srand(1651588327);
+   printf( "%li \n", time(&t));
 
   int mapa[filas][columnas];
   matriznula(mapa, filas , columnas );
@@ -51,9 +52,11 @@ int main(){
 
     representar(mapa, filas ,columnas);
     int s;
-    scanf("%i", &s );
+    scanf("  %i", &s );
     system("cls");
 
+
+    main();
 
 
 
@@ -66,6 +69,9 @@ return 0;
 
 
 }
+
+
+
 //funciones
 int representar (int matriz[filas][columnas], int col, int fil){
     int i, j;
@@ -77,22 +83,29 @@ int representar (int matriz[filas][columnas], int col, int fil){
                 printf("%c ", ' ');
                 break;
             case 1:
-                printf("%c ", ' ');
-                break;
-            case 2:
                 printf("%c ", '#');
                 break;
+            case 2:
+                printf("%c ", '&');
+                break;
             case 3:
-                printf("%c ", '@');
+                printf("%c ", '3');
                 break;
             case 4:
-                printf("%c ", ' ');
+                printf("%c ", '4');
                 break;
             case 5:
-                printf("%c ",  'F');
+                printf("%c ",  '5');
+                break;
+            case -1:
+                printf("%c ",  '#');
+                break;
+            default:
+                printf("%i ", matriz[i][j]);
                 break;
 
             }
+            //printf(",");
 
 
         }
@@ -108,19 +121,21 @@ int matriznula (int matriz[filas][columnas], int col, int fil){
             matriz[i][j] = 0;
         }
     }
+    for ( i = 0 ; i <columnas ; i++){  //problema en matrices no cuadradas
+        matriz[0][i]=2;
+        matriz[filas-1][i]=2;
+    }
+    for ( i = 0 ; i <filas ; i++){  //problema en matrices no cuadradas
+        matriz[i][0]=2;
+        matriz[i][columnas-1]=2;
+    }
 
 }
-
-
-void crear ( int matriz [filas][columnas] ){
+casilla iniciocasilla(int matriz[filas][columnas], casilla inicio, int *num){
     casilla siguiente;
-    int i, j, a, dire;
-    casilla inicio;
-    inicio.x= rand() %30+10; // establece unas coordenadas de inicio aleatorias !cuidado con estos valores
-    inicio.y= rand() %30+10;
-    a = rand () %4;
-    matriz[inicio.y][inicio.x]= 3;
-                                //elige un camino aleatorio
+    int a, i, j;
+    matriz[inicio.y][inicio.x]= *num;
+    a = rand () %4;                            //elige un camino aleatorio
     for ( i = -1; i < 2; i++){
         for (j= -1; j < 2; j++){
             if (  !(j==0 && i== 0)   && j*j == i*i){                //construye las paredes iniciales del laberinto
@@ -130,7 +145,7 @@ void crear ( int matriz [filas][columnas] ){
                 matriz[inicio.y + i][inicio.x +j ] = 1;
                 siguiente.y = inicio.y +i ;
                 siguiente.x = inicio.x +j ;
-                dire = direccion(inicio, siguiente);
+
                 a = a -1;
             }else if (!(j==0 && i== 0) && a != 0 && i*i != j*j){
                 matriz[inicio.y +i][inicio.x +j] = 2;
@@ -138,18 +153,61 @@ void crear ( int matriz [filas][columnas] ){
             }
         }
     }
-    for ( i = 0 ; i <columnas ; i++){  //problema en matrices no cuadradas
-        matriz[0][i]=2;
-        matriz[columnas-1][i]=2;
-        matriz[i][columnas-1]=2;
-        matriz[i][0]=2;
-    }
+    *num += 1;
+    return siguiente;
+}
 
-     seguir(matriz,siguiente,dire);
+void crear ( int matriz [filas][columnas] ){
+    casilla siguiente;
+    int i, j, dire, numinicio= 3;
+    casilla inicio;
 
-     casilla fin = ffinales(matriz,4);
+    inicio.y= rand() % (filas / 2) + filas/4; // establece unas coordenadas de inicio aleatorias !cuidado con estos valores
+    inicio.x= rand() % (columnas / 2) + columnas/4;
 
-     matriz[fin.y][fin.x] = 5;
+    siguiente = iniciocasilla( matriz,  inicio, &numinicio);
+    dire = direccion(inicio, siguiente);
+    seguir(matriz,siguiente,dire);
+
+
+int x, y, cont=1;
+
+     for (i=4; i<columnas-3; i++){
+        for ( j= 4; j<filas-3; j++){
+            inicio.x= i;
+            inicio.y= j;
+           for( x=i-4 ; x<= i+4; x++){
+                for (y = j-4; y <= j+4; y++){
+
+                    if(matriz[y][x] != 0){
+                        cont = 0;
+                    }
+                }
+            }
+            if (cont == 1){
+
+               casilla fin = ffinales(matriz,-1);
+               matriz[fin.y][fin.x] = numinicio;
+               siguiente = iniciocasilla(matriz, inicio, &numinicio);
+               dire = direccion(inicio, siguiente);
+               seguir(matriz,siguiente, dire);
+
+            }
+            cont =1 ;
+        }
+     }
+
+
+
+
+
+
+     casilla fin = ffinales(matriz,-1);
+
+
+     matriz[fin.y][fin.x] = 255;
+
+
 
 }
 
@@ -157,12 +215,13 @@ void crear ( int matriz [filas][columnas] ){
     int i, j, cont;
 
 
+
      dire = (4 + dire) %4;
      casilla siguiente = vect(posicion, dire);
 
      if ( comprovar(matriz, siguiente)==1){
-        int vectdifur[4] = {50,50,50,50};
-        int camgirdif[4]= {60,5,5,60};
+        int vectdifur[4] = {50,50,50,50,50,50};
+        int camgirdif[4]= {30,4,4,60};
         switch ( probabilidad(4, camgirdif)){
         case 0:
             cam(matriz, siguiente, dire);
@@ -179,7 +238,7 @@ void crear ( int matriz [filas][columnas] ){
         case 3:
 
 
-            switch (probabilidad(4, vectdifur)){
+            switch (probabilidad(6, vectdifur)){
                 case 0:
                     construir(matriz, siguiente, dire, 'd');
                     seguir( matriz,  vect(siguiente, dire +1   ), dire +1);
@@ -198,6 +257,16 @@ void crear ( int matriz [filas][columnas] ){
                 case 3:
                     construir(matriz, siguiente, dire, 'L');
                     seguir( matriz,  vect(siguiente, dire -1   ), dire -1);
+                    seguir( matriz,  vect(siguiente, dire    ), dire );
+                    break;
+                case 4:
+                    construir(matriz, siguiente, dire, 'L');
+                    seguir( matriz,  vect(siguiente, dire    ), dire );
+                    seguir( matriz,  vect(siguiente, dire -1   ), dire -1);
+                    break;
+                case 5:
+                    construir(matriz, siguiente, dire, 'R');
+                    seguir( matriz,  vect(siguiente, dire +1   ), dire +1);
                     seguir( matriz,  vect(siguiente, dire    ), dire );
                     break;
             }
@@ -219,7 +288,7 @@ void crear ( int matriz [filas][columnas] ){
         }
 
         if (cont >= 6){
-            matriz[posicion.y][posicion.x]= 4;
+            matriz[posicion.y][posicion.x]= -1;
         }
 
      }
@@ -256,13 +325,13 @@ casilla ffinales ( int matriz [filas][columnas], int num){
     int y = rand() % filas;
     int x = rand() % columnas;
 
-    while ( matriz[y][x]!=num){
-        if ( x< columnas  && y< filas){
+    while ( matriz[y][x]!= num){
+        if ( x < columnas  && y <= filas){
             x = x+1;
         } else if (x == columnas && y<filas){
             x = 0;
             y = y+1;
-        } else if( x== columnas && y == filas){
+        } else if( (x >= columnas && y >= filas) ){
             x= 0;
             y = 0;
         }
