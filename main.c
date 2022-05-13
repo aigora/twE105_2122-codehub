@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "glaberinto.h"
 
 
 
-
-#define filas 30
+#define filas 100
 #define columnas 100
-
+/**
 
 typedef struct {
     int x;
@@ -34,7 +34,7 @@ int representar (int matriz[filas][columnas], int col, int fil);  //representa l
 int matriznula (int matriz[filas][columnas], int col, int fil); //todos los elementos de la matriz a 0
 
 //criterio casillas 0 = vacio, 1 = camino, 2 = muro, 3 = incio, -1 = posible final, 5 = final
-
+**/
 //main
 int main(){
 
@@ -70,7 +70,7 @@ return 0;
 
 }
 
-
+/**
 
 //funciones
 int representar (int matriz[filas][columnas], int col, int fil){
@@ -488,3 +488,4 @@ int probabilidad( int n, int vector[]){
 
 
 }
+**/
