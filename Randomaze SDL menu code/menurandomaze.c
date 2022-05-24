@@ -47,13 +47,19 @@
                         //principal= Jugar; Aún por implementar.
                         break;
                     case SDLK_2:
-                        aux = imagen2; //Opciones
-                        if(SDLK_3)
+                        aux = imagen2;
+                        break;
+                    case SDLK_3:
+                        {
+                        aux= imagen3;//Opciones
+                        if (SDLK_3)
                             aux = imagen3; //dificultad;
                         else if(SDLK_4)
                             aux = imagen4; //personajes;
-                        else if(SDLK_SPACE)
-                            aux = imagen1; //Pulsando espacio te redirige a la pantalla principal;
+                        break;
+                        }
+                    case SDLK_SPACE:
+                        aux = imagen1;
                         break;
                     }
                 }
@@ -75,7 +81,3 @@
         return 0;
 
     }
-
-
-
-
