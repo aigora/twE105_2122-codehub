@@ -19,12 +19,19 @@
         SDL_Surface *imagen3;
         SDL_Surface *imagen4;
         SDL_Window *principal;
+        SDL_Surface *fondo;
         bool isRunning = true;
         SDL_Event event;
         imagen1= SDL_LoadBMP("randomaze_bueno.bmp");
         imagen2= SDL_LoadBMP("opcionesradomaze.bmp");
         imagen3= SDL_LoadBMP("dificultadrandomaze.bmp");
         imagen4= SDL_LoadBMP("");
+
+        SDL_SetColorKey(imagen1, SDL_TRUE, SDL_MapRGB(imagen1->format, 0,255,0));
+        SDL_SetColorKey(imagen2, SDL_TRUE, SDL_MapRGB(imagen2->format, 0,255,0));
+        SDL_SetColorKey(imagen3, SDL_TRUE, SDL_MapRGB(imagen3->format, 0,255,0));
+        SDL_SetColorKey(imagen4, SDL_TRUE, SDL_MapRGB(imagen4->format, 0,255,0));
+
 
 
         principal = SDL_CreateWindow( "Randomaze", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN );
