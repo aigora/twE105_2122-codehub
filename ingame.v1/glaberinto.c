@@ -8,12 +8,12 @@
 #define hpantalla 720
 #define N 100
 
-_Bool cargarmapa(SDL_Surface *smapa, int n, int mapa[N][N]){
-int i,j,s;
+_Bool cargarmapa(SDL_Surface *smapa, int n, int mapa[N][N]){  //esta funcion crea una superficie con el mapa entero y fondo trasparente
+int i,j;
 SDL_Rect posicion;
-int vectprob[5] = {80,8,8,8,8};
+int vectprob[5] = {80,8,8,8,8}; //porcentajes de provabilidad de los diferentes bloques
 
-SDL_Surface *bloque = cargarimagen("img/bloque.bmp");
+SDL_Surface *bloque = cargarimagen("img/bloque.bmp");          //carga las imagenes
 SDL_Surface *bloque1= cargarimagen("img/bloque1.bmp");
 SDL_Surface *bloque2= cargarimagen("img/bloque2.bmp");
 SDL_Surface *bloque3= cargarimagen("img/bloque3.bmp");
@@ -22,15 +22,15 @@ SDL_Surface *portal= cargarimagen("img/portal.bmp");
 SDL_Surface *lapida= cargarimagen("img/inicio.bmp");
 SDL_Surface *fin = cargarimagen("img/fin.bmp");
 
-for( i = 0; i < n ; i++){
+for( i = 0; i < n ; i++){                                   //realiza un barrido por todo el mapa
     for(j= 0; j < n ; j++){
         if( mapa[i][j] != 0 & mapa[i][j] != 2  ){
             posicion.x = j*16;
             posicion.y = i*16;
             posicion.w = 16;
             posicion.h = 24;
-            s = probabilidad(5,vectprob);
-            switch (s){
+
+            switch (probabilidad(5,vectprob)){              //selecciona aleatoriamente que tipo de bloque se implementa
         case 0:
             SDL_BlitSurface(bloque, NULL, smapa, &posicion);
             break;
@@ -50,17 +50,17 @@ for( i = 0; i < n ; i++){
             }
 
         }
-        if( mapa[i][j] > 3 && mapa[i][j] < 255 ){
+        if( mapa[i][j] > 3 && mapa[i][j] < 255 ){                    //implementa los portales
               posicion.y = i*16 -10;
             SDL_BlitSurface(portal, NULL, smapa, &posicion);
         } else if ( mapa[i][j] == 3){
 
             posicion.y = i*16 -6;
-             SDL_BlitSurface(lapida, NULL, smapa, &posicion);
+             SDL_BlitSurface(lapida, NULL, smapa, &posicion);        //implementa la casilla de incio
         } else if ( mapa[i][j] == 255){
 
             posicion.y = i*16 -9;
-             SDL_BlitSurface(fin, NULL, smapa, &posicion);
+             SDL_BlitSurface(fin, NULL, smapa, &posicion);             //implementa la casilla final
         }
     }
 }
@@ -70,13 +70,14 @@ return 1;
 
 void represent(SDL_Surface *smapa,SDL_Surface *fondo,SDL_Surface *personaje,SDL_Surface *principal, casilla posicion, SDL_Window *ventana, int w, int h, int M, int dire){
 
-SDL_FillRect(principal, NULL, 255);
+SDL_FillRect(principal, NULL, 255);                         //esta función genera una sucesion de superficies que simulan una fluidez con las siguientes capas: fondo, mapa(grafico) y personaje
+
 
 float i = 0;
 float s;
 float j = 0;
 float l;
-switch (dire){
+switch (dire){                                              // en función de la dirección elige la correcta animación
 case 0:
     s= 0;
     l= -0.05;
@@ -104,7 +105,7 @@ case 3:
     SDL_Rect stretchRect;
 
     for ( i = 0  ; (sqrt(i*i) <= 1.01) && (sqrt(j*j) <= 1.01)  ; i = i + s ){
-            j = j + l;
+
 
             stretchRect.x = (-2560+wpantalla) * (posicion.x+i)/(M-1.0);
             stretchRect.y = (-1440+hpantalla) * (posicion.y+j)/(M-1.0);
@@ -116,10 +117,10 @@ case 3:
 
 
 
-            stretchRect.x =   -((posicion.x+i+1-(w+1)/2)/(M+0.0))*((wpantalla+0.0)/(M*16))*M*16*M/ (w+0.0);//  se restan casillas para centrar la imagen
-            stretchRect.y =   -((posicion.y+j+1-(h+1)/2)/ (M+0.0))*((hpantalla+0.0)/(M*16)) *M*16*M/(h+0.0);
-            stretchRect.w = ((wpantalla+0.0)/(M*16)) *M*16*M  /(w+0.0);
-            stretchRect.h = ((hpantalla+0.0)/(M*16))  *M*16*M  /(h+0.0);  // (proporcion resolución pantalla / resolucion mapa) * (tamaño mapa) * (porcion representada)
+            stretchRect.x =   -((posicion.x+i+1-(w+1)/2.0))*((wpantalla+0.0)/(1*16))*16/ (w+0.0);//  se restan casillas para centrar la imagen
+            stretchRect.y =   -((posicion.y+j+1-(h+1)/2.0))*((hpantalla+0.0)/(1*16)) *16/(h+0.0);
+            stretchRect.w = ((wpantalla+0.0)/(16)) *1*16*M  /(w+0.0);
+            stretchRect.h = ((hpantalla+0.0)/(16))  *1*16*M  /(h+0.0);  // (proporcion resolución pantalla / resolucion mapa) * (tamaño mapa) * (porcion representada)
 
 
   SDL_BlitScaled( smapa, NULL, principal, &stretchRect );
@@ -133,7 +134,10 @@ case 3:
   SDL_BlitScaled( personaje, NULL, principal, &stretchRect );
 
 
-   SDL_UpdateWindowSurface( ventana );}
+   SDL_UpdateWindowSurface( ventana );
+   j = j + l;
+
+   }
 
 
 
@@ -225,7 +229,7 @@ void semilla(){
    FILE *pf;
     pf = fopen("registro.txt", "a");
 
-    fprintf(pf, "%i --> %s \n" , &tiempo, ctime(&t));
+    fprintf(pf, "%i --> %s \n" , tiempo, ctime(&t));
 
     fclose(pf);
 }
@@ -675,5 +679,117 @@ int probabilidad( int n, int vector[]){
 
 
 
+}
+
+
+void jugar(int n){
+
+
+
+
+if (SDL_Init(SDL_INIT_VIDEO) < 0)
+{
+ printf("No se pudo inicializar SDL: %s\n",
+ SDL_GetError());
+ exit(1);
+}
+
+
+
+SDL_Window  *ventana;
+SDL_Surface *principal;
+
+
+SDL_Surface *personaje;
+SDL_Surface *fondo;
+SDL_Surface *smapa;
+
+smapa = SDL_CreateRGBSurface(32, 16*n,16*n,32,0xff000000,0x00ff0000,0x0000ff00,0x000000ff);
+
+ventana = SDL_CreateWindow( "laberinto", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, wpantalla, hpantalla, SDL_WINDOW_SHOWN );
+principal = SDL_GetWindowSurface( ventana );
+
+ cargarimagenes(principal, &fondo, &personaje);
+
+
+semilla();
+
+  int mapa[100][100];
+
+
+
+  crear( mapa ,n,n);
+
+
+
+cargarmapa(smapa, n, mapa);
+
+
+
+casilla posicion = casinicial(mapa, n);
+
+int h=11, w= 17; //h= 44  w= 53
+
+
+
+_Bool cerrar = 0;
+
+SDL_Event e;
+int dire;
+
+
+while (!cerrar){
+    while( SDL_PollEvent( &e ) != 0 ){
+                    //User requests quit
+                if( e.type == SDL_QUIT )
+                {
+                        cerrar = 1;
+                }else if(( e.type == SDL_KEYDOWN )){
+                    switch( e.key.keysym.sym ){
+                    case SDLK_UP:
+                        if(mapa[posicion.y-1][posicion.x]!= 0 & mapa[posicion.y-1][posicion.x]!= 2  || 0){
+                        posicion.y = posicion.y -1;
+                        dire = 0;
+                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);}
+                        break;
+                    case SDLK_DOWN:
+                         if(mapa[posicion.y+1][posicion.x] != 0 & mapa[posicion.y+1][posicion.x] != 2 || 0 ){
+                        posicion.y = posicion.y +1;
+                        dire = 2;
+                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);}
+
+                        break;
+                    case SDLK_LEFT:
+                        if(mapa[posicion.y][posicion.x-1] !=0 & mapa[posicion.y][posicion.x-1] !=2 || 0 ){
+                        posicion.x = posicion.x -1;
+                        dire = 3;
+                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);}
+                        break;
+                    case SDLK_RIGHT:
+                        if(mapa[posicion.y][posicion.x+1] !=0  & mapa[posicion.y][posicion.x+1] !=2 || 0 ){
+                           posicion.x = posicion.x +1;
+                        dire= 1;
+                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);
+                        }
+
+                        break;
+                    case SDLK_m:
+                        minimapa(smapa, fondo, principal,ventana);
+                        break;
+                    }
+
+
+
+                    if(mapa[posicion.y][posicion.x]>3){
+                        posicion = teletransporte(mapa, posicion, n);
+                        represent(smapa, fondo, personaje, principal, posicion, ventana ,w,h,n, dire);
+                    }
+
+
+
+
+    }
+}
+}
 }
 

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1653244132 source:c:\users\tomeu\desktop\c\provasdl\main.c
+1653317360 source:c:\users\tomeu\desktop\c\provasdl\main.c
 	<SDL.h>
 	<stdio.h>
 	"glaberinto.c"
@@ -762,10 +762,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1653143743 c:\users\tomeu\desktop\c\provasdl\glaberinto.h
+1653315814 c:\users\tomeu\desktop\c\provasdl\glaberinto.h
 	<stdio.h>
 	<stdlib.h>
 
-1653143794 c:\users\tomeu\desktop\c\provasdl\glaberinto.c
+1653318839 c:\users\tomeu\desktop\c\provasdl\glaberinto.c
 	"glaberinto.h"
 
