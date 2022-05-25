@@ -381,6 +381,24 @@
 	"begin_code.h"
 	"close_code.h"
 
+<<<<<<< Updated upstream:Randomaze SDL menu code/Randomaze SDL menu code.depend
+=======
+1653315814 c:\users\tomeu\desktop\c\provasdl\glaberinto.h
+	<stdio.h>
+	<stdlib.h>
+
+1653318839 c:\users\tomeu\desktop\c\provasdl\glaberinto.c
+	"glaberinto.h"
+
+1653479402 source:c:\users\34679\documents\github\twe105_2122-codehub\ingame.v1\main.c
+	<SDL.h>
+	<stdio.h>
+	<stdbool.h>
+	"glaberinto.c"
+	<stdlib.h>
+	<math.h>
+
+>>>>>>> Stashed changes:ingame.v1/provasdl.depend
 1641852692 c:\users\34679\desktop\sdl 2\sdl2-devel-2.0.20-mingw.tar\sdl2-2.0.20\x86_64-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
