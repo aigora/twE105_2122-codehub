@@ -769,3 +769,17 @@
 1653318839 c:\users\tomeu\desktop\c\provasdl\glaberinto.c
 	"glaberinto.h"
 
+1653472770 source:c:\users\tomeu\documents\github\twe105_2122-codehub\ingame.v1\main.c
+	<SDL.h>
+	<stdio.h>
+	"glaberinto.c"
+	<stdlib.h>
+	<math.h>
+
+1653472778 c:\users\tomeu\documents\github\twe105_2122-codehub\ingame.v1\glaberinto.c
+	"glaberinto.h"
+
+1653472769 c:\users\tomeu\documents\github\twe105_2122-codehub\ingame.v1\glaberinto.h
+	<stdio.h>
+	<stdlib.h>
+
