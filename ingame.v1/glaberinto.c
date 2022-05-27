@@ -855,26 +855,14 @@ while (!cerrar){
 
                 break;
             }
-
-
-
-
-
-
-
-
-
-
-
 }
 }
 
 
-
-         SDL_FreeSurface(personaje);
-           SDL_FreeSurface(smapa);
-           SDL_FreeSurface(fondo);
-            SDL_FreeSurface(principal);
+        SDL_FreeSurface(personaje);
+        SDL_FreeSurface(smapa);
+        SDL_FreeSurface(fondo);
+        SDL_FreeSurface(principal);
 
 
 
