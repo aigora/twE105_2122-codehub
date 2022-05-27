@@ -49,7 +49,7 @@
             switch (event.type)
             {
             case SDL_QUIT:
-                isRunning= false;
+                return 0;
                 break;
 
             default:
@@ -69,7 +69,7 @@
                         accion = SDL_GetMouseState(&x, &y);
                         while (SDL_PollEvent(&event)!=0)
                         {
-                            if(event.type == SDL_Quit)
+                            if(event.type == SDL_QUIT)
                             {
                                 return 0;
                             }
@@ -114,7 +114,7 @@
                         accion = SDL_GetMouseState(&x, &y);
                         while (SDL_PollEvent(&event)!=0)
                         {
-                            if(event.type == SDL_Quit)
+                            if(event.type == SDL_QUIT)
                             {
                                 return 0;
                             }
@@ -150,7 +150,7 @@
                         accion = SDL_GetMouseState(&x, &y);
                         while (SDL_PollEvent(&event)!=0)
                         {
-                            if(event.type == SDL_Quit)
+                            if(event.type == SDL_QUIT)
                             {
                                 return 0;
                             }
@@ -193,7 +193,7 @@
                         accion = SDL_GetMouseState(&x, &y);
                         while (SDL_PollEvent(&event)!=0)
                         {
-                            if(event.type == SDL_Quit)
+                            if(event.type == SDL_QUIT)
                             {
                                 return 0;
                             }
