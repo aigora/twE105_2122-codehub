@@ -8,7 +8,7 @@
 #define hpantalla 720
 #define N 100
 
-void crearfondo(SDL_Surface **entrada){              //funciona
+void crearfondo(SDL_Surface **entrada){
 
     SDL_Surface *retorno;
     SDL_Surface *fondo;
@@ -31,7 +31,11 @@ posicion.w = 1280;
 posicion.h = 720;
 SDL_BlitScaled(fondo, NULL, retorno, &posicion);
 
+
+
+
 SDL_BlitScaled(smapa, NULL, retorno, &posicion);
+SDL_BlitScaled(*entrada, NULL, retorno, &posicion);
 *entrada = retorno;
 }
 
@@ -248,10 +252,10 @@ return 1;
 void semilla(){
     time_t t;
     int tiempo = time(&t);
-    //tiempo = 1653664203;
+
    srand((unsigned)  tiempo);
 
-  // printf( "%li \n", tiempo);
+
 
    FILE *pf;
     pf = fopen("registro.txt", "a");
@@ -340,11 +344,11 @@ void matriznula (int matriz[filas][columnas], int col, int fil){
             matriz[i][j] = 0;
         }
     }
-    for ( i = 0 ; i <col ; i++){  //problema en matrices no cuadradas
+    for ( i = 0 ; i <col ; i++){
         matriz[0][i]=2;
         matriz[fil-1][i]=2;
     }
-    for ( i = 0 ; i <fil ; i++){  //problema en matrices no cuadradas
+    for ( i = 0 ; i <fil ; i++){
         matriz[i][0]=2;
         matriz[i][col-1]=2;
     }
@@ -435,7 +439,6 @@ int x, y, cont=1;
  void seguir( int matriz [filas][columnas], casilla posicion, int dire){
     int i, j, cont;
 
-    printf("\n");
 
 
      dire = (4 + dire) %4;
@@ -716,9 +719,23 @@ int probabilidad( int n, int vector[]){  //saca un número del 0 al n-1 con las p
 }
 
 
-void jugar(int n, int p){
+void jugar(SDL_Window **ventana,int n, int p){
+
+switch (n){
+case 0:
+    n = 50;
+    break;
+case 1:
+    n = 80;
+    break;
+case 2:
+    n = 100;
+    break;
 
 
+
+
+}
 
 
 if (SDL_Init(SDL_INIT_VIDEO) < 0)              //iniciación del video SDL
@@ -729,7 +746,7 @@ if (SDL_Init(SDL_INIT_VIDEO) < 0)              //iniciación del video SDL
 }
 
     SDL_Surface *personaje;
-    SDL_Window  *ventana;
+
     SDL_Surface *principal;
     SDL_Surface *fondo;
     SDL_Surface *smapa;
@@ -746,8 +763,8 @@ if (SDL_Init(SDL_INIT_VIDEO) < 0)              //iniciación del video SDL
     smapa = SDL_CreateRGBSurface(32, 16*n,16*n,32,0xff000000,0x00ff0000,0x0000ff00,0x000000ff);
 
 
-    ventana = SDL_CreateWindow( "laberinto", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, wpantalla, hpantalla, SDL_WINDOW_SHOWN );
-    principal = SDL_GetWindowSurface( ventana );
+
+    principal = SDL_GetWindowSurface( *ventana );
 
     cargarfondo( &fondo);
 
@@ -773,7 +790,7 @@ int h=11, w= 19;
 
 
 
-represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, -1); //representación sin movimiento
+represent(smapa,fondo,personaje, principal, posicion, *ventana,w,h,n, -1); //representación sin movimiento
 
 
 _Bool cerrar = 0;
@@ -784,42 +801,43 @@ SDL_Event e;
 
 while (!cerrar){
     while( SDL_PollEvent( &e ) != 0 ){
-                    //User requests quit
-                if( e.type == SDL_QUIT )
-                {
-                        cerrar = 1;
-                }else if(( e.type == SDL_KEYDOWN )){
+            switch (e.type){
 
-                    switch( e.key.keysym.sym ){
+            case SDL_QUIT:
+
+                cerrar = 1;
+                break;
+            case SDL_KEYDOWN:
+                switch( e.key.keysym.sym ){
                     case SDLK_UP:
                         if(mapa[posicion.y-1][posicion.x]!= 0 & mapa[posicion.y-1][posicion.x]!= 2  || 0){
                         posicion.y = posicion.y -1;
                         dire = 0;
-                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);}
+                        represent(smapa,fondo,personaje, principal, posicion, *ventana,w,h,n, dire);}
                         break;
                     case SDLK_DOWN:
                          if(mapa[posicion.y+1][posicion.x] != 0 & mapa[posicion.y+1][posicion.x] != 2 || 0 ){
                         posicion.y = posicion.y +1;
                         dire = 2;
-                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);}
+                        represent(smapa,fondo,personaje, principal, posicion, *ventana,w,h,n, dire);}
 
                         break;
                     case SDLK_LEFT:
                         if(mapa[posicion.y][posicion.x-1] !=0 & mapa[posicion.y][posicion.x-1] !=2 || 0 ){
                         posicion.x = posicion.x -1;
                         dire = 3;
-                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);}
+                        represent(smapa,fondo,personaje, principal, posicion, *ventana,w,h,n, dire);}
                         break;
                     case SDLK_RIGHT:
                         if(mapa[posicion.y][posicion.x+1] !=0  & mapa[posicion.y][posicion.x+1] !=2 || 0 ){
                            posicion.x = posicion.x +1;
                         dire= 1;
-                        represent(smapa,fondo,personaje, principal, posicion, ventana,w,h,n, dire);
+                        represent(smapa,fondo,personaje, principal, posicion, *ventana,w,h,n, dire);
                         }
 
                         break;
                     case SDLK_m:
-                        minimapa(smapa, fondo, principal,ventana);
+                        minimapa(smapa, fondo, principal,*ventana);
                         break;
                     }
 
@@ -827,18 +845,39 @@ while (!cerrar){
 
                     if(mapa[posicion.y][posicion.x]>3){
                         posicion = teletransporte(mapa, posicion, n);
-                        represent(smapa, fondo, personaje, principal, posicion, ventana ,w,h,n, -1);
+                        represent(smapa, fondo, personaje, principal, posicion, *ventana ,w,h,n, -1);
                     }
                     if (mapa[posicion.y][posicion.x]== 255){
-                            cerrar = 1;
+                        cerrar = 1;
                         }
 
 
 
+                break;
+            }
 
-    }
+
+
+
+
+
+
+
+
+
+
 }
 }
-SDL_Quit();
+
+
+
+         SDL_FreeSurface(personaje);
+           SDL_FreeSurface(smapa);
+           SDL_FreeSurface(fondo);
+            SDL_FreeSurface(principal);
+
+
+
+
 }
 

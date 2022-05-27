@@ -16,7 +16,7 @@ typedef struct {
 
 } casilla;
 
-void jugar(int n, int p);
+void jugar(SDL_Window **ventana,int n, int p);
 casilla vect( casilla inicial, int dire);   //saca la siguiente casilla en función de la dirección
 int probabilidad( int n, int vector[]);     //a partir de un vector de probabilidades devuelve una opción
 int direccion ( casilla posicion, casilla siguiente);   //saca la dirección a partir de dos posiciones, direcciónes: 0 arriba, 1 derecha, 2 abajo, 3 izquierda
