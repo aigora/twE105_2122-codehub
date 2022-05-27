@@ -248,9 +248,10 @@ return 1;
 void semilla(){
     time_t t;
     int tiempo = time(&t);
+    //tiempo = 1653664203;
    srand((unsigned)  tiempo);
-   //srand(1651912672);
-   printf( "%li \n", tiempo);
+
+  // printf( "%li \n", tiempo);
 
    FILE *pf;
     pf = fopen("registro.txt", "a");
@@ -298,10 +299,10 @@ int representar (int matriz[filas][columnas], int col, int fil){
                 printf("%c ", ' ');
                 break;
             case 1:
-                printf("%c ", '#');
+                printf("%c ", ' ');
                 break;
             case 2:
-                printf("%c ", ' ');
+                printf("%c ", '#');
                 break;
             case 3:
                 printf("%c ", '3');
@@ -313,10 +314,13 @@ int representar (int matriz[filas][columnas], int col, int fil){
                 printf("%c ",  '5');
                 break;
             case -1:
-                printf("%c ",  '#');
+                printf("%c ",  'F');
+                break;
+            case 255:
+                printf("%c ",  'E');
                 break;
             default:
-                printf("%i ", matriz[i][j]);
+               // printf("%i ", matriz[i][j]);
                 break;
 
             }
@@ -369,6 +373,7 @@ casilla iniciocasilla(int matriz[filas][columnas], casilla inicio, int *num){
         }
     }
     *num += 1;
+
     return siguiente;
 }
 
@@ -430,6 +435,7 @@ int x, y, cont=1;
  void seguir( int matriz [filas][columnas], casilla posicion, int dire){
     int i, j, cont;
 
+    printf("\n");
 
 
      dire = (4 + dire) %4;
@@ -538,22 +544,24 @@ _Bool comprovar ( int matriz [filas][columnas], casilla siguiente){ // comprueba
 }
 
 casilla ffinales ( int matriz [filas][columnas], int num, int col, int fil){
-    int y = rand() % fil;
-    int x = rand() % col;
+    int i;
+    int j;
+    int cont=0;
+    casilla lista[N*N/2];
 
-    while ( matriz[y][x]!= num){
-        if ( x < col  && y <= fil){
-            x = x+1;
-        } else if (x == col && y<fil){
-            x = 0;
-            y = y+1;
-        } else if( (x >= col && y >= fil) ){
-            x= 0;
-            y = 0;
+    for(i = 0; i< col; i++){
+        for(j = 0 ; j<fil; j++){
+            if( matriz[j][i] == num){
+                lista[cont].x = i;
+                lista[cont].y = j;
+                cont++;
+            }
         }
-
     }
-    return (casilla) {x , y};
+    int aleatorio = rand() % cont;
+
+return lista[aleatorio];
+
 }
 
 
@@ -761,20 +769,7 @@ if (SDL_Init(SDL_INIT_VIDEO) < 0)              //iniciación del video SDL
     casilla posicion = casinicial(mapa, n);
 
 int dire;
-int h=11, w= 19; //h= 44  w= 53 proporcion ideal
-
-//SDL_Surface *prova ;
-//crearfondo(&prova);
-//
-//SDL_Rect provase;
-//provase.x = 0;
-//provase.y = 0;
-//provase.w = 1280;
-//provase.h = 720;
-//SDL_BlitSurface(prova, NULL, principal, &provase);
-//
-//SDL_UpdateWindowSurface( ventana );
-//SDL_Delay(8000);
+int h=11, w= 19;
 
 
 
@@ -785,7 +780,7 @@ _Bool cerrar = 0;
 
 SDL_Event e;
 
-SDL_QUIT;
+
 
 while (!cerrar){
     while( SDL_PollEvent( &e ) != 0 ){
@@ -844,5 +839,6 @@ while (!cerrar){
     }
 }
 }
+SDL_Quit();
 }
 
