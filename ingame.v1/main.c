@@ -13,5 +13,5 @@
 
 
 int main(int argc, char* args[] ){
-    jugar(50,1);
+    jugar(50,0);
 }
