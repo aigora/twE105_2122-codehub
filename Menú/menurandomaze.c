@@ -16,6 +16,8 @@
         int x, y;
         int accion;
         int momento=0;
+        int dificultad;
+        int personaje;
 
         SDL_Surface *pantalla, *aux;
         SDL_Surface *imagen1;
@@ -157,14 +159,17 @@
                                 if (x<828 && y>177 && x>437 &&y<269)
                                 {
                                     //Facil
+                                    dificultad=0;
                                 }
                                 else if( x<818 && y>311 && x<437 && y<403)
                                 {
                                     //Normal
+                                    dificultad=1;
                                 }
                                 else if( x<820 && y>456 && x>434 && y<540)
                                 {
                                     //Difícil
+                                    dificultad=2;
                                 }
                                 else if(x<1277 && x>1088 && y<73 && y>3)
                                 {
@@ -197,10 +202,12 @@
                                 if(x>251 && x<525 && y>434 && y<531)
                                 {
                                     //personaje 1;
+                                    personaje=0;
                                 }
                                 else if(x>740 && x<1015 && y<529 && y>433)
                                 {
                                     //personaje 2
+                                    personaje=1;
                                 }
                                 else if(x<1277 && x>1088 && y<73 && y>3) //vuelve a las opciones.
                                 {
