@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1653687971 source:c:\users\tomeu\documents\github\twe105_2122-codehub\randomaze\main.c
+	<SDL.h>
+	<stdio.h>
+	"glaberinto.c"
+	<stdlib.h>
+	<math.h>
+	<stdbool.h>
+
+1653687971 c:\users\tomeu\documents\github\twe105_2122-codehub\randomaze\glaberinto.c
+	"glaberinto.h"
+
+1653687971 c:\users\tomeu\documents\github\twe105_2122-codehub\randomaze\glaberinto.h
+	<stdio.h>
+	<stdlib.h>
+
