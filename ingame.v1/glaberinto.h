@@ -16,7 +16,7 @@ typedef struct {
 
 } casilla;
 
-void jugar(int n);
+void jugar(int n, int p);
 casilla vect( casilla inicial, int dire);   //saca la siguiente casilla en función de la dirección
 int probabilidad( int n, int vector[]);     //a partir de un vector de probabilidades devuelve una opción
 int direccion ( casilla posicion, casilla siguiente);   //saca la dirección a partir de dos posiciones, direcciónes: 0 arriba, 1 derecha, 2 abajo, 3 izquierda
@@ -41,10 +41,11 @@ void semilla();
 
 casilla casinicial(int mapa[N][N], int n);
 SDL_Surface *cargarimagen(char local[20] );
-//void prueba(SDL_Surface** prova);
+
 void represent(SDL_Surface *smapa,SDL_Surface *fondo, SDL_Surface *personaje,SDL_Surface *principal, casilla posicion, SDL_Window *ventana, int w, int h, int M, int dire);
 void minimapa( SDL_Surface *smapa,SDL_Surface *fondo, SDL_Surface *principal, SDL_Window *ventana );
-_Bool cargarimagenes(SDL_Surface *principal, SDL_Surface **fondo, SDL_Surface **personaje);
-_Bool cargarmapa(SDL_Surface *smapa, int n, int mapa[N][N]);
+_Bool cargarfondo( SDL_Surface **fondo);
+void cargarmapa(SDL_Surface *smapa, int col, int fil, int mapa[N][N]);
 casilla teletransporte(int mapa[N][N], casilla posicion, int n);
 
+void crearfondo(SDL_Surface **entrada);
